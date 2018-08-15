@@ -1,3 +1,3 @@
 base:
   '*':
-    - hello_apache
+    - hello_web
