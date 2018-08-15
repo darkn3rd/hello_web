@@ -1,0 +1,7 @@
+.vagrant
+output.txt
+error.txt
+*-cloudimg-console.log
+blog
+vagrant.log
+ansible.log

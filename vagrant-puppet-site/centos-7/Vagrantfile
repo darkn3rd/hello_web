@@ -1,0 +1,15 @@
+script_path = '../../scripts'
+
+Vagrant.configure('2') do |config|
+  config.vm.box = 'bento/centos-7.5'
+  config.vm.network 'forwarded_port', guest: 80, host: 8084
+
+  ####### Install Puppet Agent #######
+  config.vm.provision "shell", path: "#{script_path}/install_puppet.sh"
+
+  ####### Provision #######
+  config.vm.provision 'puppet' do |puppet|
+    puppet.module_path = %W(#{script_path}/site #{script_path}/modules)
+    puppet.options = "--verbose --debug"
+  end
+end

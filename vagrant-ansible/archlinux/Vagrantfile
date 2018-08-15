@@ -1,0 +1,22 @@
+script_path = "../../scripts"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "archlinux/archlinux"
+  config.vm.network "forwarded_port", guest: 80, host: 8086
+
+  ####### FileShare #######
+  config.vm.synced_folder "#{script_path}/provisioning/", "/srv/provisioning"
+
+  ####### Provision #######
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "/srv/provisioning/playbook.yml"
+    ansible.verbose = true
+    ansible.extra_vars = {
+      hello_web: {
+        package: "apache",
+        service: "httpd",
+        docroot: "/srv/http"
+      }
+    }
+  end
+end
