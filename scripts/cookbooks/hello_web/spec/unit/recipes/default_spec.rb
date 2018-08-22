@@ -13,7 +13,7 @@ describe 'hello_web::default' do
     let(:docroot) { '/var/www/html' }
 
     let(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04')
+      runner = ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04')
       runner.converge(described_recipe)
     end
 
@@ -36,7 +36,7 @@ describe 'hello_web::default' do
     it 'Should starts Apache Web Server service' do
       expect(chef_run).to start_service service
     end
-    
+
     it 'Should copy HTML content to docroot' do
       expect(chef_run).to create_cookbook_file "#{docroot}/index.html"
     end
@@ -48,7 +48,7 @@ describe 'hello_web::default' do
     let(:docroot) { '/var/www/html' }
 
     let(:chef_run) do
-      runner = ChefSpec::ServerRunner.new(platform: 'centos', version: '7.5.1804') do |node|
+      runner = ChefSpec::SoloRunner.new(platform: 'centos', version: '7.5.1804') do |node|
         node.normal['hello_web']['package'] = package
         node.normal['hello_web']['service'] = package
         node.normal['hello_web']['docroot'] = docroot
