@@ -9,6 +9,11 @@ shared_examples 'default_hello_web' do
     expect { chef_run }.to_not raise_error
   end
 
+  ######## ILLUSTRATIVE PURPOSES ONLY ########
+  # NOTE: These tests are put here for teaching purposes, to illustrate basic
+  # functionality of ChefSpec. These tests have low value, as they just test
+  # the Chef API, not your code.
+
   it 'Should Installs Apache Web Server Package' do
     expect(chef_run).to install_package package
   end
