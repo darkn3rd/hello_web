@@ -25,24 +25,10 @@ describe 'hello_web::default' do
       expect(chef_run).to periodic_apt_update 'Update the apt cache daily'
     end
 
-    it 'Should Installs Apache Web Server Package' do
-      expect(chef_run).to install_package package
-    end
-
-    it 'Should enables Apache Web Server service' do
-      expect(chef_run).to enable_service service
-    end
-
-    it 'Should starts Apache Web Server service' do
-      expect(chef_run).to start_service service
-    end
-    
-    it 'Should copy HTML content to docroot' do
-      expect(chef_run).to create_cookbook_file "#{docroot}/index.html"
-    end
+    include_examples 'default_hello_web'
   end
 
-  context 'When overriding attirubtes on 7.5.1804' do
+  context 'When overriding attirubtes on CentOS 7.5.1804' do
     let(:package) { 'httpd' }
     let(:service) { 'httpd' }
     let(:docroot) { '/var/www/html' }
@@ -56,24 +42,7 @@ describe 'hello_web::default' do
       runner.converge(described_recipe)
     end
 
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
-    end
+    include_examples 'default_hello_web'
 
-    it 'Should Installs Apache Web Server Package' do
-      expect(chef_run).to install_package package
-    end
-
-    it 'Should enables Apache Web Server service' do
-      expect(chef_run).to enable_service service
-    end
-
-    it 'Should starts Apache Web Server service' do
-      expect(chef_run).to start_service service
-    end
-
-    it 'Should copy HTML content to docroot' do
-      expect(chef_run).to create_cookbook_file "#{docroot}/index.html"
-    end
   end
 end
