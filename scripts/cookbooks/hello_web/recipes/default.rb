@@ -9,14 +9,14 @@ apt_update 'Update the apt cache daily' do
   action :periodic
 end
 
-package node['hello_web']['package']
+package node['hello_web']["#{node['platform_family']}"]['package']
 
-cookbook_file "#{node['hello_web']['docroot']}/index.html" do
+cookbook_file "#{node['hello_web']["#{node['platform_family']}"]['docroot']}/index.html" do
   source 'index.html'
   action :create
 end
 
-service node['hello_web']['service'] do
+service node['hello_web']["#{node['platform_family']}"]['service'] do
   supports status: true, restart: true, reload: true
   action %i(enable start)
 end
