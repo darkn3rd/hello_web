@@ -1,3 +1,6 @@
 .vagrant
 .kitchen
 .kitchen.local.yml
+__pycache__
+*.xml
+.pytest_cache
