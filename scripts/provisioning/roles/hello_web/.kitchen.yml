@@ -7,14 +7,14 @@ provisioner:
   hosts: all
   require_ansible_repo: false
   require_ansible_omnibus: true
-  require_chef_for_busser: false
-  require_ruby_for_busser: false
+  # require_chef_for_busser: false
+  # require_ruby_for_busser: false
   ansible_verbose: false
   ansible_diff: true
   roles_path: ..
 
-verifier:
-  name: inspec
+# verifier:
+#   name: inspec
 
 platforms:
   - name: ubuntu-16.04
