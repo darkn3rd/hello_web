@@ -8,6 +8,7 @@ provisioner:
   require_ansible_repo: true
   require_ansible_omnibus: false
   ansible_verbose: true
+  ansible_verbosity: 1
   ansible_diff: true
   roles_path: ../../roles
   playbook: ../../playbook.yml
@@ -33,20 +34,19 @@ platforms:
           package: httpd
           service: httpd
           docroot: /var/www/html
-  # - name: freebsd-11.2
-  #   lifecycle:
-  #     pre_converge:
-  #       - remote: sudo pkg install -y python
-  #       - remote: sudo pkg install -y py27-pip
-  #       - remote: sudo pkg install -y py27-ansible
-  #   provisioner:
-  #     env_vars:
-  #       ANSIBLE_PYTHON_INTERPRETER: /usr/local/bin/python
-  #     extra_vars:
-  #       hello_web:
-  #         package: apache24
-  #         service: apache24
-  #         docroot: /usr/local/www/apache24/data/
+  - name: freebsd-11.2
+    lifecycle:
+      pre_converge:
+        - remote: sudo pkg install -y python
+        - remote: sudo pkg install -y py27-pip
+        - remote: sudo pkg install -y py27-ansible
+    provisioner:
+      extra_vars:
+        ansible_python_interpreter: /usr/local/bin/python
+        hello_web:
+          package: apache24
+          service: apache24
+          docroot: /usr/local/www/apache24/data/
 
 suites:
   - name: default

@@ -1,8 +1,15 @@
 ---
-- name: "Install Web Service"
+- name: "Install Web Service on RedHat or Debian family"
   package:
     name: "{{ hello_web.package }}"
     state: present
+  when: ansible_os_family == "RedHat" or ansible_os_family == "Debian"
+
+- name: "Install Web Service on FreeBSD"
+  pkgng:
+    name: "{{ hello_web.package }}"
+    state: present
+  when: ansible_os_family == "FreeBSD"
 
 - name: "Start Web Service"
   service:
