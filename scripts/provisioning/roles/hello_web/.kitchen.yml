@@ -5,26 +5,48 @@ driver:
 provisioner:
   name: ansible_playbook
   hosts: all
-  require_ansible_repo: false
-  require_ansible_omnibus: true
+  require_ansible_repo: true
+  require_ansible_omnibus: false
+  ansible_verbose: true
+  ansible_diff: true
+  roles_path: ../../roles
+  playbook: ../../playbook.yml
+
   # require_chef_for_busser: false
   # require_ruby_for_busser: false
-  ansible_verbose: false
-  ansible_diff: true
-  roles_path: ..
-
-# verifier:
-#   name: inspec
 
 verifier:
   name: shell
   command: >
-    py.test
+    py.test --color=yes
     --host="paramiko://${KITCHEN_USERNAME}@${KITCHEN_HOSTNAME}:${KITCHEN_PORT}?ssh_identity_file=${KITCHEN_SSH_KEY}"
     "test/integration/${KITCHEN_SUITE}"
 
 platforms:
   - name: ubuntu-16.04
+  - name: centos-7
+    transport:
+      max_ssh_sessions: 6
+    provisioner:
+      extra_vars:
+        hello_web:
+          package: httpd
+          service: httpd
+          docroot: /var/www/html
+  # - name: freebsd-11.2
+  #   lifecycle:
+  #     pre_converge:
+  #       - remote: sudo pkg install -y python
+  #       - remote: sudo pkg install -y py27-pip
+  #       - remote: sudo pkg install -y py27-ansible
+  #   provisioner:
+  #     env_vars:
+  #       ANSIBLE_PYTHON_INTERPRETER: /usr/local/bin/python
+  #     extra_vars:
+  #       hello_web:
+  #         package: apache24
+  #         service: apache24
+  #         docroot: /usr/local/www/apache24/data/
 
 suites:
   - name: default
